@@ -35,7 +35,6 @@ export default function SelectDateAndTime() {
           ref={datePickerRef}
           type="text"
           placeholder="Välj datum och tid..."
-          style={{ display: "none" }}
         />
         <button onClick={handlePickDate}>Pick date</button>
       </div>
