@@ -16,7 +16,7 @@ export default function SelectDateAndTime() {
       maxTime: "21:00",
       wrap: false,
       inline: false,
-      onChange: function (selectedDates, dateStr) {
+      onChange: function (dateStr) {
         setSelectedDateTime(dateStr);
       },
     });
@@ -29,12 +29,12 @@ export default function SelectDateAndTime() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div>
       <div>
         <input
           ref={datePickerRef}
           type="text"
-          placeholder="Välj datum och tid..."
+          placeholder="pick date and time..."
         />
         <button onClick={handlePickDate}>Pick date</button>
       </div>
