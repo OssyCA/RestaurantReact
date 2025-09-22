@@ -1,47 +1,40 @@
-import React, { useRef, useEffect, useState } from "react";
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
+import React, { useState } from "react";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import dayjs from "dayjs";
+import { useBooking } from "../Contexts/BookingContext";
 
 export default function SelectDateAndTime() {
-  const datePickerRef = useRef(null);
-  const [selectedDateTime, setSelectedDateTime] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
   const [showDateTime, setShowDateTime] = useState(false);
+  const { setSelectedDateTime } = useBooking();
 
-  useEffect(() => {
-    const fp = flatpickr(datePickerRef.current, {
-      enableTime: true,
-      dateFormat: "Y-m-d H:i",
-      time_24hr: true,
-      minTime: "10:00",
-      maxTime: "21:00",
-      wrap: false,
-      inline: false,
-      onChange: function (dateStr) {
-        setSelectedDateTime(dateStr);
-      },
-    });
-
-    return () => fp.destroy();
-  }, []);
-
-  const handlePickDate = () => {
-    setShowDateTime(true);
+  const handleDateChange = (newValue) => {
+    setSelectedDate(newValue);
+    if (newValue) {
+      const formattedDate = newValue.format("YYYY-MM-DD HH:mm");
+      setSelectedDateTime(formattedDate);
+      setShowDateTime(true);
+    }
   };
 
   return (
-    <div>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div>
-        <input
-          ref={datePickerRef}
-          type="text"
-          placeholder="pick date and time..."
+        <DateTimePicker
+          label="Välj datum och tid"
+          value={selectedDate}
+          onChange={handleDateChange}
+          ampm={false}
+          minTime={dayjs().hour(10).minute(0)}
+          maxTime={dayjs().hour(21).minute(0)}
         />
-        <button onClick={handlePickDate}>Pick date</button>
-      </div>
 
-      {showDateTime && selectedDateTime && (
-        <div>Datepicked: {selectedDateTime}</div>
-      )}
-    </div>
+        {showDateTime && selectedDate && (
+          <div>Datepicked: {selectedDate.format("YYYY-MM-DD HH:mm")}</div>
+        )}
+      </div>
+    </LocalizationProvider>
   );
 }
