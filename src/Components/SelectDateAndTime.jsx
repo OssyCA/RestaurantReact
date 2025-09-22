@@ -23,12 +23,35 @@ export default function SelectDateAndTime() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div>
         <DateTimePicker
-          label="Välj datum och tid"
+          label="Choose Date & Time"
           value={selectedDate}
           onChange={handleDateChange}
           ampm={false}
-          minTime={dayjs().hour(10).minute(0)}
-          maxTime={dayjs().hour(21).minute(0)}
+          disablePast={true}
+          minTime={
+            selectedDate
+              ? selectedDate.hour(10).minute(0)
+              : dayjs().hour(10).minute(0)
+          }
+          maxTime={
+            selectedDate
+              ? selectedDate.hour(21).minute(0)
+              : dayjs().hour(21).minute(0)
+          }
+          shouldDisableTime={(value, view) => {
+            const now = dayjs();
+            if (view === "hours") {
+              const hour = value.hour();
+              if (hour < 10 || hour > 21) return true;
+              if (value.isSame(now, "day") && hour <= now.hour()) {
+                return true;
+              }
+
+              return false;
+            }
+
+            return false;
+          }}
         />
 
         {showDateTime && selectedDate && (

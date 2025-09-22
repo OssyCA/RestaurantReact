@@ -4,7 +4,7 @@ import { useBooking } from "../Contexts/BookingContext";
 
 const SelectTable = () => {
   const [tableList, setTableList] = useState([]);
-  const [partySize, setPartySize] = useState(0);
+  const [partySize, setPartySize] = useState(1); // Changed from 0 to 1
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
   const { selectedDateTime } = useBooking();
@@ -13,6 +13,11 @@ const SelectTable = () => {
   const tables = async () => {
     if (!selectedDateTime) {
       alert("choose a time and date");
+      return;
+    }
+
+    if (partySize < 1) {
+      alert("Please enter a valid party size");
       return;
     }
 
@@ -31,30 +36,69 @@ const SelectTable = () => {
   };
 
   return (
-    <div>
-      <label htmlFor="partysize">Antal</label>
-      <input
-        type="number"
-        id="partysize"
-        name="partysize"
-        value={partySize}
-        onChange={(e) => setPartySize(parseInt(e.target.value) || 0)}
-        min="1"
-        max="20"
-        placeholder="Enter party size"
-      />
-      <button onClick={tables}>Load Tables</button>
-      <ul>
+    <div style={{ margin: "20px", padding: "10px", border: "1px solid #ccc" }}>
+      <h3>Select Table</h3>
+      <div>
+        <label htmlFor="partysize">Antal: </label>
+        <input
+          type="number"
+          id="partysize"
+          name="partysize"
+          value={partySize}
+          onChange={(e) => setPartySize(parseInt(e.target.value) || 1)}
+          min="1"
+          max="20"
+          placeholder="Enter party size"
+          style={{ margin: "10px", padding: "5px" }}
+        />
+      </div>
+      <button
+        onClick={tables}
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "#007bff",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          margin: "10px 0",
+        }}
+      >
+        Load Tables
+      </button>
+
+      <ul style={{ listStyle: "none", padding: 0 }}>
         {loading ? (
-          <div>Loading...</div>
+          <div style={{ padding: "10px", fontStyle: "italic" }}>Loading...</div>
         ) : hasSearched && tableList.length === 0 ? (
-          <div>NO SEATS AVAILABLE</div>
+          <div style={{ padding: "10px", color: "red" }}>
+            NO SEATS AVAILABLE
+          </div>
         ) : (
           tableList.map((table, index) => (
-            <li key={index}>
-              <a href="">
-                {table.tablenumber} Seats: {table.capacity}
-              </a>
+            <li
+              key={index}
+              style={{
+                margin: "5px 0",
+                padding: "10px",
+                backgroundColor: "#f8f9fa",
+                border: "1px solid #dee2e6",
+              }}
+            >
+              <button
+                onClick={() =>
+                  console.log(`Selected table ${table.tablenumber}`)
+                }
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  width: "100%",
+                  textAlign: "left",
+                }}
+              >
+                Table {table.tablenumber} - Seats: {table.capacity}
+              </button>
             </li>
           ))
         )}
