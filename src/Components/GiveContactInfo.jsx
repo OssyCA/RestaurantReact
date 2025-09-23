@@ -1,5 +1,6 @@
 import { useReducer } from "react";
 import { useBooking } from "../Contexts/BookingContext";
+import { validateForm } from "../Services/ValideteContactForm";
 
 // Initial state
 const initialState = {
@@ -44,29 +45,6 @@ const bookingReducer = (state, action) => {
   }
 };
 
-// Validation function
-const validateForm = (state) => {
-  const errors = {};
-
-  if (!state.name.trim()) {
-    errors.name = "Name is required";
-  }
-
-  if (!state.email.trim()) {
-    errors.email = "Email is required";
-  } else if (!/\S+@\S+\.\S+/.test(state.email)) {
-    errors.email = "Invalid email address";
-  }
-
-  if (!state.phone.trim()) {
-    errors.phone = "Phone number is required";
-  } else if (!/^[\d\s\-\+\(\)]{8,}$/.test(state.phone)) {
-    errors.phone = "Invalid phone number";
-  }
-
-  return errors;
-};
-
 const GiveContactInfo = () => {
   const [bookingInfo, dispatch] = useReducer(bookingReducer, initialState);
   const { updateBookingData } = useBooking();
@@ -75,13 +53,16 @@ const GiveContactInfo = () => {
     dispatch({ type: "UPDATE_FIELD", field, value });
   };
 
-  const tempValide = () => {
+  const tempValidate = () => {
     dispatch({ type: "VALIDATE" });
-    console.log("Current form validity:", bookingInfo.isValid);
   };
 
   const handleReset = () => {
     dispatch({ type: "RESET" });
+  };
+  const handleUpdate = () => {
+    const { name, email, phone } = bookingInfo;
+    updateBookingData({ name, email, phone });
   };
 
   return (
@@ -131,16 +112,11 @@ const GiveContactInfo = () => {
       <button type="button" onClick={handleReset}>
         Reset
       </button>
+      <button onClick={handleUpdate}>Update</button>
 
-      <div>
-        <h3>Current Booking Info:</h3>
-        <div>Name: {bookingInfo.name}</div>
-        <div>Email: {bookingInfo.email}</div>
-        <div>Phone: {bookingInfo.phone}</div>
-        <div>Is Form Valid: {bookingInfo.isValid ? "Yes" : "No"}</div>
-        <div>Errors: {JSON.stringify(bookingInfo.errors)}</div>
-        <button onClick={tempValide}>Check Validity</button>
-      </div>
+      <button onClick={tempValidate}>Check Validity</button>
+      <div>Is Form Valid: {bookingInfo.isValid ? "Yes" : "No"}</div>
+      <div>Errors: {JSON.stringify(bookingInfo.errors)}</div>
     </div>
   );
 };

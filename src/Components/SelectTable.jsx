@@ -8,8 +8,10 @@ const SelectTable = () => {
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
   const { selectedDateTime } = useBooking();
+  const { setTable } = useBooking();
+  const [selectedTable, setSelectedTable] = useState(null);
+  const { amount } = useBooking();
 
-  // Function to fetch available tables with error handling
   const tables = async () => {
     if (!selectedDateTime) {
       alert("choose a time and date");
@@ -36,10 +38,10 @@ const SelectTable = () => {
   };
 
   return (
-    <div style={{ margin: "20px", padding: "10px", border: "1px solid #ccc" }}>
+    <div>
       <h3>Select Table</h3>
       <div>
-        <label htmlFor="partysize">Antal: </label>
+        <label htmlFor="partysize">Amount: </label>
         <input
           type="number"
           id="partysize"
@@ -49,45 +51,24 @@ const SelectTable = () => {
           min="1"
           max="20"
           placeholder="Enter party size"
-          style={{ margin: "10px", padding: "5px" }}
         />
       </div>
-      <button
-        onClick={tables}
-        style={{
-          padding: "10px 20px",
-          backgroundColor: "#007bff",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          margin: "10px 0",
-        }}
-      >
-        Load Tables
-      </button>
+      <button onClick={tables}>Load Tables</button>
 
       <ul style={{ listStyle: "none", padding: 0 }}>
         {loading ? (
-          <div style={{ padding: "10px", fontStyle: "italic" }}>Loading...</div>
+          <div>Loading...</div>
         ) : hasSearched && tableList.length === 0 ? (
-          <div style={{ padding: "10px", color: "red" }}>
-            NO SEATS AVAILABLE
-          </div>
+          <div>NO SEATS AVAILABLE</div>
         ) : (
           tableList.map((table, index) => (
-            <li
-              key={index}
-              style={{
-                margin: "5px 0",
-                padding: "10px",
-                backgroundColor: "#f8f9fa",
-                border: "1px solid #dee2e6",
-              }}
-            >
+            <li key={index}>
               <button
+                value={selectedTable}
                 onClick={() =>
-                  console.log(`Selected table ${table.tablenumber}`)
+                  console.log("Selected Table:", table) ||
+                  setSelectedTable(table) ||
+                  setTable(table)
                 }
                 style={{
                   background: "none",

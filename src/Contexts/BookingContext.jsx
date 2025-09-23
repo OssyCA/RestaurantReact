@@ -1,15 +1,43 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-export const BookingContext = createContext({});
+const BookingContext = createContext();
 
 export const BookingProvider = ({ children }) => {
-  const [selectedDateTime, setSelectedDateTime] = useState("");
+  const [selectedDateTime, setSelectedDateTime] = useState(null);
+  const [bookingData, setBookingData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+  const [table, setTable] = useState(null);
+  const [amount, setAmount] = useState(0);
+
+  const updateBookingData = (data) => {
+    setBookingData((prev) => ({ ...prev, ...data }));
+  };
 
   return (
-    <BookingContext.Provider value={{ selectedDateTime, setSelectedDateTime }}>
+    <BookingContext.Provider
+      value={{
+        selectedDateTime,
+        setSelectedDateTime,
+        bookingData,
+        updateBookingData,
+        table,
+        setTable,
+        amount,
+        setAmount,
+      }}
+    >
       {children}
     </BookingContext.Provider>
   );
 };
 
-export const useBooking = () => useContext(BookingContext);
+export const useBooking = () => {
+  const context = useContext(BookingContext);
+  if (!context) {
+    throw new Error("useBooking must be used within a BookingProvider");
+  }
+  return context;
+};

@@ -1,16 +1,20 @@
-import SelectDateAndTime from "./Components/SelectDateAndTime";
-import GiveContactInfo from "./Components/GiveContactInfo";
-import SelectTable from "./Components/SelectTable";
-import { BookingProvider } from "./Contexts/BookingContext";
+import SelectDateAndTime from "./SelectDateAndTime";
+import GiveContactInfo from "./GiveContactInfo";
+import SelectTable from "./SelectTable";
+import { BookingProvider } from "../Contexts/BookingContext";
+import TempBookingInfo from "./TempBookingInfo";
 
 const BookingSteps = () => {
   return (
     <BookingProvider>
       <div>
         <h2>Booking Steps</h2>
+        <GiveContactInfo />
+
         <SelectDateAndTime />
         <SelectTable />
-        <GiveContactInfo />
+        <hr />
+        <TempBookingInfo />
       </div>
     </BookingProvider>
   );
