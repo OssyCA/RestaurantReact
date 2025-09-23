@@ -12,7 +12,7 @@ export const getTables = async (startTime, amount) => {
   if (!amount || amount <= 0) {
     throw new Error("amount must be a positive number");
   }
-  console.log({ startTime: startTime.toISOString(), amount });
+  console.log({ startTime: startTime.toISOString(), amount }); // TA BORT SEN
   try {
     const response = await api.get("Booking/GetAvailableTables", {
       params: {
@@ -24,7 +24,7 @@ export const getTables = async (startTime, amount) => {
     if (!response.data?.data) {
       throw new Error("Invalid response format from API");
     }
-    console.log("Fetched tables:", response.data.data);
+    console.log("Fetched tables:", response.data.data); // TA BORT SEN
     return response.data.data;
   } catch (error) {
     console.error("Failed to fetch available tables:", {
@@ -34,5 +34,18 @@ export const getTables = async (startTime, amount) => {
     });
 
     throw new Error(`Failed to get available tables: ${error.message}`);
+  }
+};
+
+export const createBooking = (booking) => {
+  try {
+    const response = api.post("Booking/CreateBooking", booking);
+    if (!response.data?.data) {
+      throw new Error("Invalid response format from API");
+    }
+    console.log("BOOKING MADE:", response.data.data); // TA BORT SEN
+    return response.data.data;
+  } catch (error) {
+    console.error(error.message);
   }
 };
