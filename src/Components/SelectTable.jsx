@@ -4,7 +4,6 @@ import { useBooking } from "../Contexts/BookingContext";
 
 const SelectTable = () => {
   const [tableList, setTableList] = useState([]);
-  const [partySize, setPartySize] = useState(1); // Changed from 0 to 1
   const [hasSearched, setHasSearched] = useState(false);
   const [loading, setLoading] = useState(false);
   const { selectedDateTime } = useBooking();
@@ -18,7 +17,7 @@ const SelectTable = () => {
       return;
     }
 
-    if (partySize < 1) {
+    if (amount < 1) {
       alert("Please enter a valid party size");
       return;
     }
@@ -27,7 +26,7 @@ const SelectTable = () => {
     setLoading(true);
     try {
       const selectedDate = new Date(selectedDateTime);
-      const data = await getTables(selectedDate, partySize);
+      const data = await getTables(selectedDate, amount);
       setTableList(data);
     } catch (error) {
       console.error("Error fetching tables:", error);
@@ -40,19 +39,6 @@ const SelectTable = () => {
   return (
     <div>
       <h3>Select Table</h3>
-      <div>
-        <label htmlFor="partysize">Amount: </label>
-        <input
-          type="number"
-          id="partysize"
-          name="partysize"
-          value={partySize}
-          onChange={(e) => setPartySize(parseInt(e.target.value) || 1)}
-          min="1"
-          max="20"
-          placeholder="Enter party size"
-        />
-      </div>
       <button onClick={tables}>Load Tables</button>
 
       <ul style={{ listStyle: "none", padding: 0 }}>
