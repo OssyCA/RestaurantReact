@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getTables } from "../Services/BookingService";
 import { useBooking } from "../Contexts/BookingContext";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const SelectTable = () => {
   const [tableList, setTableList] = useState([]);
@@ -43,7 +44,9 @@ const SelectTable = () => {
 
       <ul style={{ listStyle: "none", padding: 0 }}>
         {loading ? (
-          <div>Loading...</div>
+          <div>
+            <CircularProgress />
+          </div>
         ) : hasSearched && tableList.length === 0 ? (
           <div>NO SEATS AVAILABLE</div>
         ) : (

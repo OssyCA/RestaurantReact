@@ -112,11 +112,14 @@ const GiveContactInfo = () => {
       <button type="button" onClick={handleReset}>
         Reset
       </button>
-      <button onClick={handleUpdate}>Update</button>
-
-      <button onClick={tempValidate}>Check Validity</button>
-      <div>Is Form Valid: {bookingInfo.isValid ? "Yes" : "No"}</div>
-      <div>Errors: {JSON.stringify(bookingInfo.errors)}</div>
+      <button
+        onClick={() => {
+          handleUpdate();
+          tempValidate();
+        }}
+      >
+        Update
+      </button>
     </div>
   );
 };
