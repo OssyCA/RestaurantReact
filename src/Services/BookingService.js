@@ -37,15 +37,21 @@ export const getTables = async (startTime, amount) => {
   }
 };
 
-export const createBooking = (booking) => {
+export const createBooking = async (booking) => {
   try {
-    const response = api.post("Booking/CreateBooking", booking);
-    if (!response.data?.data) {
+    const response = await api.post("Booking/CreateBooking", booking);
+
+    if (!response.data) {
       throw new Error("Invalid response format from API");
     }
-    console.log("BOOKING MADE:", response.data.data); // TA BORT SEN
-    return response.data.data;
+
+    console.log("BOOKING MADE:", response.data);
+    return response.data;
   } catch (error) {
-    console.error(error.message);
+    console.error(
+      "Error creating booking:",
+      error.response?.data || error.message
+    );
+    throw error;
   }
 };

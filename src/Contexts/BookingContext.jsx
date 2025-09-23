@@ -9,7 +9,7 @@ export const BookingProvider = ({ children }) => {
     email: "",
     phone: "",
   });
-  const [table, setTable] = useState(null);
+  const [table, setTable] = useState({ tableId: null });
   const [amount, setAmount] = useState(0);
 
   const updateBookingData = (data) => {

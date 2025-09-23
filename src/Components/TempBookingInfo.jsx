@@ -11,17 +11,17 @@ export default function TempBookingInfo() {
   const [confirmation, setConformation] = useState("");
 
   const booking = {
-    TableId: bookingData.tableId,
+    TableId: table.tableId,
     CustomerEmail: bookingData.email,
     CustomerName: bookingData.name,
     CustomerPhone: bookingData.phone,
-    numberOfPeople: amount,
-    bookingTime: new Date(selectedDateTime).toISOString(),
+    Amount: amount,
+    StartTime: new Date(selectedDateTime).toISOString(),
   };
 
   const handleCreateBooking = async (e) => {
+    console.log(booking);
     e.preventDefault();
-    console.log("Pressed");
     try {
       const data = await createBooking(booking);
       setLoading(true);
