@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useBooking } from "../Contexts/BookingContext";
 import { createBooking } from "../Services/BookingService";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function TempBookingInfo() {
   const { bookingData } = useBooking();
   const { selectedDateTime } = useBooking();
   const { table } = useBooking();
   const { amount } = useBooking();
-  const [loading, setLoading] = useState(false);
-  const [confirmation, setConformation] = useState("");
+  const [loading, setLoading] = useState(false); // LÄGG TILL
+  const [confirmation, setConfirmation] = useState(""); // LÄGG TILL
+  const [error, setError] = useState(""); // LÄGG TIKKL
 
   const booking = {
     TableId: table.tableId,
@@ -16,18 +18,22 @@ export default function TempBookingInfo() {
     CustomerName: bookingData.name,
     CustomerPhone: bookingData.phone,
     Amount: amount,
-    StartTime: new Date(selectedDateTime).toISOString(),
+    StartAt: new Date(selectedDateTime).toISOString(),
   };
 
   const handleCreateBooking = async (e) => {
-    console.log(booking);
+    setConfirmation("");
+    setError("");
+    setLoading(true);
+    console.log(booking); // TA BORT SEN
     e.preventDefault();
     try {
+      console.log(booking);
       const data = await createBooking(booking);
-      setLoading(true);
-      setConformation(data);
+      setConfirmation(data);
     } catch (error) {
       console.error("Error creating booking: ", error);
+      setError("Failed to create booking. Please try again.");
     } finally {
       setLoading(false);
     }
