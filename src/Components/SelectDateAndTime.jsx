@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { Typography, Box, Alert } from "@mui/material";
 import dayjs from "dayjs";
 import { useBooking } from "../Contexts/BookingContext";
 
@@ -21,9 +22,13 @@ export default function SelectDateAndTime() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div>
+      <Box>
+        <Typography variant="h5" sx={{ mb: 3 }}>
+          Choose Date & Time
+        </Typography>
+
         <DateTimePicker
-          label="Choose Date & Time"
+          label="Select Date & Time"
           value={selectedDate}
           onChange={handleDateChange}
           ampm={false}
@@ -46,18 +51,19 @@ export default function SelectDateAndTime() {
               if (value.isSame(now, "day") && hour <= now.hour()) {
                 return true;
               }
-
               return false;
             }
-
             return false;
           }}
+          sx={{ width: "100%", maxWidth: 300 }}
         />
 
         {showDateTime && selectedDate && (
-          <div>Datepicked: {selectedDate.format("YYYY-MM-DD HH:mm")}</div>
+          <Alert severity="success" sx={{ mt: 2 }}>
+            Selected: {selectedDate.format("YYYY-MM-DD HH:mm")}
+          </Alert>
         )}
-      </div>
+      </Box>
     </LocalizationProvider>
   );
 }

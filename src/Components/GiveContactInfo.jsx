@@ -1,6 +1,7 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { useBooking } from "../Contexts/BookingContext";
 import { validateForm } from "../Services/ValideteContactForm";
+import { TextField, Button, Typography, Box, Alert } from "@mui/material";
 
 const initialState = {
   name: "",
@@ -16,7 +17,7 @@ const bookingReducer = (state, action) => {
       const newState = {
         ...state,
         [action.field]: action.value,
-        errors: { ...state.errors, [action.field]: null }, // Clear error when typing
+        errors: { ...state.errors, [action.field]: null },
       };
       return { ...newState, isValid: validateForm(newState) };
 
@@ -58,67 +59,80 @@ const GiveContactInfo = () => {
   const handleReset = () => {
     dispatch({ type: "RESET" });
   };
+
   const handleUpdate = () => {
     const { name, email, phone } = bookingInfo;
     updateBookingData({ name, email, phone });
   };
 
   return (
-    <div>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
+    <Box>
+      <Typography variant="h5" sx={{ mb: 3 }}>
+        Contact Information
+      </Typography>
+
+      <Box sx={{ mb: 2 }}>
+        <TextField
+          fullWidth
           id="name"
-          type="text"
+          label="Name"
+          variant="outlined"
           placeholder="Enter your name"
           required
           value={bookingInfo.name}
           onChange={(e) => handleInputChange("name", e.target.value)}
+          error={!!bookingInfo.errors.name}
+          helperText={bookingInfo.errors.name}
         />
-        {bookingInfo.errors.name && <span>{bookingInfo.errors.name}</span>}
-      </div>
-      <br />
+      </Box>
 
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
+      <Box sx={{ mb: 2 }}>
+        <TextField
+          fullWidth
           id="email"
+          label="Email"
           type="email"
+          variant="outlined"
           placeholder="Enter your email"
           required
           value={bookingInfo.email}
           onChange={(e) => handleInputChange("email", e.target.value)}
+          error={!!bookingInfo.errors.email}
+          helperText={bookingInfo.errors.email}
         />
-        {bookingInfo.errors.email && <span>{bookingInfo.errors.email}</span>}
-      </div>
-      <br />
+      </Box>
 
-      <div>
-        <label htmlFor="phone">Phone</label>
-        <input
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          fullWidth
           id="phone"
+          label="Phone"
           type="tel"
+          variant="outlined"
           placeholder="Enter your phone number"
           required
           value={bookingInfo.phone}
           onChange={(e) => handleInputChange("phone", e.target.value)}
+          error={!!bookingInfo.errors.phone}
+          helperText={bookingInfo.errors.phone}
         />
-        {bookingInfo.errors.phone && <span>{bookingInfo.errors.phone}</span>}
-      </div>
-      <br />
+      </Box>
 
-      <button type="button" onClick={handleReset}>
-        Reset
-      </button>
-      <button
-        onClick={() => {
-          handleUpdate();
-          tempValidate();
-        }}
-      >
-        Update
-      </button>
-    </div>
+      <Box sx={{ display: "flex", gap: 2 }}>
+        <Button variant="outlined" onClick={handleReset}>
+          Reset
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            handleUpdate();
+            tempValidate();
+          }}
+        >
+          Update
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

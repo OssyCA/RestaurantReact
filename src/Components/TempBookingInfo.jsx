@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import { useBooking } from "../Contexts/BookingContext";
 import { createBooking } from "../Services/BookingService";
-import CircularProgress from "@mui/material/CircularProgress";
+import {
+  CircularProgress,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  Snackbar,
+  Alert,
+  Box,
+} from "@mui/material";
 
 export default function TempBookingInfo() {
   const { bookingData } = useBooking();
   const { selectedDateTime } = useBooking();
   const { table } = useBooking();
   const { amount } = useBooking();
-  const [loading, setLoading] = useState(false); // LÄGG TILL
-  const [confirmation, setConfirmation] = useState(""); // LÄGG TILL
-  const [error, setError] = useState(""); // LÄGG TIKKL
+  const [loading, setLoading] = useState(false);
+  const [confirmation, setConfirmation] = useState("");
+  const [error, setError] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const booking = {
     TableId: table.tableId,
@@ -25,12 +35,11 @@ export default function TempBookingInfo() {
     setConfirmation("");
     setError("");
     setLoading(true);
-    console.log(booking); // TA BORT SEN
     e.preventDefault();
     try {
-      console.log(booking);
       const data = await createBooking(booking);
-      setConfirmation(data);
+      setConfirmation("Booking created successfully!");
+      setSnackbarOpen(true); // Show success snackbar
     } catch (error) {
       console.error("Error creating booking: ", error);
       setError("Failed to create booking. Please try again.");
@@ -39,20 +48,81 @@ export default function TempBookingInfo() {
     }
   };
 
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   return (
     <div>
-      <div className="debug-info">
-        <h3>Current Booking Info:</h3>
-        <div>Name: {bookingData?.name}</div>
-        <div>Email: {bookingData?.email}</div>
-        <div>Phone: {bookingData?.phone}</div>
-        <div>Selected time and date: {selectedDateTime}</div>
-        <div>Selected Amount: {amount}</div>
-        <div>Selected Table: {table?.tableNumber}</div>
-      </div>
-      <form action="post" onSubmit={handleCreateBooking}>
-        <button type="submit">Create booking</button>
-      </form>
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        Booking Confirmation
+      </Typography>
+
+      <Card sx={{ mb: 3 }}>
+        <CardContent>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Booking Details
+          </Typography>
+          <Typography variant="body1">
+            <strong>Name:</strong> {bookingData?.name}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Email:</strong> {bookingData?.email}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Phone:</strong> {bookingData?.phone}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Date & Time:</strong> {selectedDateTime}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Number of People:</strong> {amount}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Table:</strong> {table?.tableNumber}
+          </Typography>
+        </CardContent>
+      </Card>
+
+      <Box component="form" onSubmit={handleCreateBooking}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={loading}
+          sx={{ minWidth: 150 }}
+        >
+          {loading ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Create Booking"
+          )}
+        </Button>
+      </Box>
+
+      {error && (
+        <Alert severity="error" sx={{ mt: 2 }}>
+          {error}
+        </Alert>
+      )}
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Booking created successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

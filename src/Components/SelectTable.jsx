@@ -1,7 +1,17 @@
 import { useState } from "react";
 import { getTables } from "../Services/BookingService";
 import { useBooking } from "../Contexts/BookingContext";
-import CircularProgress from "@mui/material/CircularProgress";
+import {
+  CircularProgress,
+  Typography,
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Alert,
+  Box,
+} from "@mui/material";
 
 const SelectTable = () => {
   const [tableList, setTableList] = useState([]);
@@ -37,43 +47,47 @@ const SelectTable = () => {
     }
   };
 
-  return (
-    <div>
-      <h3>Select Table</h3>
-      <button onClick={tables}>Load Tables</button>
+  const handleTableSelect = (table) => {
+    setSelectedTable(table);
+    setTable(table);
+  };
 
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {loading ? (
-          <div>
-            <CircularProgress />
-          </div>
-        ) : hasSearched && tableList.length === 0 ? (
-          <div>NO SEATS AVAILABLE</div>
-        ) : (
-          tableList.map((table, index) => (
-            <li key={index}>
-              <button
-                value={selectedTable}
-                onClick={() =>
-                  console.log("Selected Table:", table) ||
-                  setSelectedTable(table) ||
-                  setTable(table)
-                }
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  width: "100%",
-                  textAlign: "left",
-                }}
+  return (
+    <Box>
+      <Typography variant="h5" sx={{ mb: 2 }}>
+        Select Table
+      </Typography>
+
+      <Button variant="contained" onClick={tables} sx={{ mb: 3 }}>
+        Load Available Tables
+      </Button>
+
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+          <CircularProgress />
+        </Box>
+      ) : hasSearched && tableList.length === 0 ? (
+        <Alert severity="warning">
+          No tables available for the selected time and party size
+        </Alert>
+      ) : (
+        <List>
+          {tableList.map((table, index) => (
+            <ListItem key={index} disablePadding>
+              <ListItemButton
+                onClick={() => handleTableSelect(table)}
+                selected={selectedTable?.tableId === table.tableId}
               >
-                Table {table.tablenumber} - Seats: {table.capacity}
-              </button>
-            </li>
-          ))
-        )}
-      </ul>
-    </div>
+                <ListItemText
+                  primary={`Table ${table.tablenumber}`}
+                  secondary={`Capacity: ${table.capacity} people`}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
+    </Box>
   );
 };
 
