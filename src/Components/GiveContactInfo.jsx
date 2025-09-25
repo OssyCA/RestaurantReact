@@ -1,8 +1,7 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { useBooking } from "../Contexts/BookingContext";
 import { validateForm } from "../Services/ValideteContactForm";
 
-// Initial state
 const initialState = {
   name: "",
   email: "",
@@ -11,7 +10,6 @@ const initialState = {
   isValid: false,
 };
 
-// Reducer function
 const bookingReducer = (state, action) => {
   switch (action.type) {
     case "UPDATE_FIELD":
