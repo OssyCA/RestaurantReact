@@ -1,4 +1,3 @@
-import React from "react";
 import { useBooking } from "../Contexts/BookingContext";
 
 const SelectAmount = () => {
