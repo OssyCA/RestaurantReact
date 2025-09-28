@@ -24,7 +24,6 @@ const Footer = () => {
     >
       <Container maxWidth="lg">
         <Grid container spacing={4}>
-          {/* Restaurant Info */}
           <Grid item xs={12} md={4}>
             <Typography
               variant="h6"
@@ -44,7 +43,6 @@ const Footer = () => {
             </Typography>
           </Grid>
 
-          {/* Opening Hours */}
           <Grid item xs={12} md={4}>
             <Typography
               variant="h6"
@@ -62,7 +60,6 @@ const Footer = () => {
             </Typography>
           </Grid>
 
-          {/* Contact Info */}
           <Grid item xs={12} md={4}>
             <Typography
               variant="h6"
