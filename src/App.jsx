@@ -2,6 +2,7 @@ import BookingSteps from "./Components/BookingSteps";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 
 const darkTheme = createTheme({
   palette: {
@@ -12,16 +13,17 @@ const darkTheme = createTheme({
 function App() {
   return (
     <>
-      <header></header>
-      <Navbar />
-      <main>
-        <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={darkTheme}>
+        <header></header>
+        <Navbar />
+        <main>
           <CssBaseline />
-
           <BookingSteps />
-        </ThemeProvider>
-      </main>
-      <footer></footer>
+        </main>
+        <footer>
+          <Footer />
+        </footer>
+      </ThemeProvider>
     </>
   );
 }
