@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 const drawerWidth = 240;
-const navItems = ["Home", "Menu", "Book Table", "Contact"];
+const navItems = ["Home", "Menu"];
 
 function Navbar(props) {
   const { window, children } = props;
@@ -50,7 +49,7 @@ function Navbar(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" sx={{ height: 60 }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -84,7 +83,7 @@ function Navbar(props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
