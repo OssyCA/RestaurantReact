@@ -129,7 +129,7 @@ const GiveContactInfo = () => {
             tempValidate();
           }}
         >
-          Update
+          SET INFO
         </Button>
       </Box>
     </Box>

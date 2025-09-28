@@ -79,7 +79,7 @@ const SelectTable = () => {
                 selected={selectedTable?.tableId === table.tableId}
               >
                 <ListItemText
-                  primary={`Table ${table.tablenumber}`}
+                  primary={`Table ${table.tableNumber}`}
                   secondary={`Capacity: ${table.capacity} people`}
                 />
               </ListItemButton>
