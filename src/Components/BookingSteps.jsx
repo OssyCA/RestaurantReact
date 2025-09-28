@@ -137,6 +137,7 @@ const BookingSteps = () => {
             }}
           >
             {activeStep === steps.length ? (
+              // FIXA SÅ BOOKNINGEN SKÖTS AV FINISH KNAPPEN
               <Box sx={{ textAlign: "center", py: 4 }}>
                 <Typography variant={isMobile ? "h6" : "h5"} sx={{ mb: 3 }}>
                   🎉 All steps completed - booking finished!
