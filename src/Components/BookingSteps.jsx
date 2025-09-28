@@ -30,7 +30,6 @@ const BookingSteps = () => {
     "Confirmation",
   ];
 
-  // Shorter labels for mobile
   const mobileSteps = ["Contact", "Date & Time", "Amount", "Table", "Confirm"];
 
   const isStepSkipped = (step) => {
@@ -88,7 +87,7 @@ const BookingSteps = () => {
           sx={{
             p: { xs: 2, sm: 4 },
             borderRadius: 2,
-            minHeight: { xs: "500px", sm: "600px" },
+            minHeight: { xs: "31.25em", sm: "37.5em" },
           }}
         >
           <Typography

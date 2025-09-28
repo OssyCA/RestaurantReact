@@ -13,11 +13,11 @@ const darkTheme = createTheme({
 function App() {
   return (
     <>
+      <CssBaseline />
       <ThemeProvider theme={darkTheme}>
         <header></header>
         <Navbar />
         <main>
-          <CssBaseline />
           <BookingSteps />
         </main>
         <footer>
