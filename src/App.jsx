@@ -1,6 +1,7 @@
 import BookingSteps from "./Components/BookingSteps";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Navbar from "./Components/Navbar";
 
 const darkTheme = createTheme({
   palette: {
@@ -11,10 +12,16 @@ const darkTheme = createTheme({
 function App() {
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <BookingSteps />
-      </ThemeProvider>
+      <header></header>
+      <Navbar />
+      <main>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+
+          <BookingSteps />
+        </ThemeProvider>
+      </main>
+      <footer></footer>
     </>
   );
 }
