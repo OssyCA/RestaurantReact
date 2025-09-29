@@ -15,7 +15,10 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 const drawerWidth = 240;
-const navItems = ["Home", "Menu"];
+const navItems = [
+  { label: "Home", path: "https://localhost:7262/" },
+  { label: "Menu", path: "https://localhost:7262/Menu" },
+];
 
 function Navbar(props) {
   const { window, children } = props;
@@ -33,9 +36,13 @@ function Navbar(props) {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
+          <ListItem key={item.label} disablePadding>
+            <ListItemButton
+              component="a"
+              href={item.path}
+              sx={{ textAlign: "center" }}
+            >
+              <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -60,6 +67,7 @@ function Navbar(props) {
           >
             <MenuIcon />
           </IconButton>
+
           <Typography
             variant="h6"
             component="div"
@@ -69,13 +77,19 @@ function Navbar(props) {
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }}>
-                {item}
+              <Button
+                key={item.label}
+                component="a"
+                href={item.path}
+                sx={{ color: "#fff" }}
+              >
+                {item.label}
               </Button>
             ))}
           </Box>
         </Toolbar>
       </AppBar>
+
       <nav>
         <Drawer
           container={container}
@@ -96,6 +110,7 @@ function Navbar(props) {
           {drawer}
         </Drawer>
       </nav>
+
       <Box component="main" sx={{ p: 3, width: "100%" }}>
         <Toolbar />
         {children}

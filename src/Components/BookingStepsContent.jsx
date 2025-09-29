@@ -91,6 +91,12 @@ const BookingStepsContent = () => {
     setActiveStep(0);
     setBookingComplete(false);
     setError("");
+    bookingData.name = "";
+    bookingData.email = "";
+    bookingData.phone = "";
+    selectedDateTime = null;
+    table.tableId = null;
+    amount = 0;
   };
 
   const renderStepContent = (step) => {
