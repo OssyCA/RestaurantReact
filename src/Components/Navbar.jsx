@@ -17,8 +17,10 @@ import Button from "@mui/material/Button";
 const drawerWidth = 240;
 const navItems = [
   // MÅSTE HA MVC ÖPPEN FÖR ATT FUNGERA
-  { label: "Home", path: "https://localhost:7262/" },
-  { label: "Menu", path: "https://localhost:7262/Menu" },
+  { label: "Home" },
+  { label: "Menu" },
+  // { label: "Home", path: "https://localhost:7262/" },
+  // { label: "Menu", path: "https://localhost:7262/Menu" },
 ];
 
 function Navbar(props) {
